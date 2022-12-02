@@ -17,17 +17,7 @@ type="text/css">
     } 	
 </style>
 
-	
-</head>	
-<body>
-
-<title>Learning resources</title>
-	<h1>Learning resources</h1>
-	<h1>Add your skills using your current job or add skills individually</h1>
-	
-	
-    
-    <?php
+	<?php
 include 'excel_reader.php';     // include the class
 
 // creates an object instance of the class, and read the excel file data
@@ -74,8 +64,17 @@ for($i=0; $i<$nr_sheets; $i++) {
   $excel_data .= '<h4>Sheet '. ($i + 1) .' (<em>'. $excel->boundsheets[$i]['name'] .'</em>)</h4>'. sheetData($excel->sheets[$i]) .'<br/>';  
 }
 ?>
+	</head>
+	
 
-</head>
+<body>
+
+<title>Learning resources</title>
+	<h1>Learning resources</h1>
+	<h1>Add your skills using your current job or add skills individually</h1>
+	
+	
+   
 <body>
   <?php
     // displays tables with excel file data
