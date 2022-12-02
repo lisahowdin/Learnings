@@ -8,91 +8,67 @@
 <style>
 body{font-family: arial; font-size: 1oo%; margin-left: 15%; margin-right: 15%; }
 type="text/css">
-    table {
+ table {
       border-collapse: collapse;
     }        
     td {
       border: 1px solid black;
       padding: 0 0.5em;
-    } 	
+    } 	table {
+border-collapse: collapse;
+width: 100%;
+color: #588c7e;
+font-family: monospace;
+font-size: 25px;
+text-align: left;
+}
+th {
+background-color: #588c7e;
+color: white;
+}
+tr:nth-child(even) {background-color: #f2f2f2}
 </style>
-
-	<?php
-include 'excel_reader.php';     // include the class
-
-// creates an object instance of the class, and read the excel file data
-$excel = new PhpExcelReader;
-$excel->read('fees.xls');
-
-// Excel file data is stored in $sheets property, an Array of worksheets
-/*
-The data is stored in 'cells' and the meta-data is stored in an array called 'cellsInfo'
-
-Example (firt_sheet - index 0, second_sheet - index 1, ...):
-
-$sheets[0]  -->  'cells'  -->  row --> column --> Interpreted value
-         -->  'cellsInfo' --> row --> column --> 'type' (Can be 'date', 'number', or 'unknown')
-                                            --> 'raw' (The raw data that Excel stores for that data cell)
-*/
-
-// this function creates and returns a HTML table with excel rows and columns data
-// Parameter - array with excel worksheet data
-function sheetData($sheet) {
-  $re = '<table>';     // starts html table
-
-  $x = 1;
-  while($x <= $sheet['numRows']) {
-    $re .= "<tr>\n";
-    $y = 1;
-    while($y <= $sheet['numCols']) {
-      $cell = isset($sheet['cells'][$x][$y]) ? $sheet['cells'][$x][$y] : '';
-      $re .= " <td>$cell</td>\n";  
-      $y++;
-    }  
-    $re .= "</tr>\n";
-    $x++;
-  }
-
-  return $re .'</table>';     // ends and returns the html table
-}
-
-$nr_sheets = count($excel->sheets);       // gets the number of sheets
-$excel_data = '';              // to store the the html tables with data of each sheet
-
-// traverses the number of sheets and sets html table with each sheet data in $excel_data
-for($i=0; $i<$nr_sheets; $i++) {
-  $excel_data .= '<h4>Sheet '. ($i + 1) .' (<em>'. $excel->boundsheets[$i]['name'] .'</em>)</h4>'. sheetData($excel->sheets[$i]) .'<br/>';  
-}
-?>
-	</head>
 	
-
+</head>
 <body>
-	<p> Manual section</p>
-	<h1>Lead Workforce Planner</h1>
-	<h1>Recommended Learning for this role:</h1>
-<p>
-<ul>
-<li>Strategic Thinking | Australian Public Service Academy (apsacademy.gov.au)</li>
-<li><a href="apsacademy.gov.au/">Engaging Stakeholders | Australian Public Service Academy</a></li>
-<li>WFP Boost Course -  Program Management for Workforce Planning</li>
-<li>Practical Risk Management: More than just ticking boxes</li>
-<li>WFP Boost – Organisational Design and Job Design</li>
-<li>WFP Boost – Demand and Supply Forecasting</li>
-<li>PRINCE2 Agile® Practitioner | DDLS - Leading Corporate IT Training and Certification Provider</li>
-<li>Workforce Analytics</li>
-<li>Change Management Foundation
-<li>WFP Boost – Organisational Culture and Determining Crucial Capabilities</li>
-<li>Influence, Negotiation and Persuasion for Executive Levels</li>
-	</ul>
-	</p>
-   
+<table>
+<tr>
+<th>Id</th>
+<th>Username</th>
+<th>Password</th>
+</tr>
+<?php
+$conn = mysqli_connect("localhost", "root", "", "company");
+
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+$sql = "SELECT id, username, password FROM login";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+
+// output data of each row
+while($row = $result->fetch_assoc()) {
+echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"] . "</td><td>"
+. $row["password"]. "</td></tr>";
+}
+echo "</table>";
+} else { echo "0 results"; }
+$conn->close();
+?>
+</table>
+</body>
+</html>	
 	
-	<p> Auto section</p>
-  <?php
-    // displays tables with excel file data
-    echo $excel_data;enter code here
-  ?>
+	
+	
+
+	
+	
+	
+	
+	
 </body>
 </html>
     
