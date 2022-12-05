@@ -38,20 +38,20 @@ tr:nth-child(even) {background-color: #f2f2f2}
 <th>Password</th>
 </tr>
 <?php
-$conn = mysqli_connect("localhost", "root", "", "company");
+$conn = mysqli_connect("https://github.com/lisahowdin/Learnings/blob/main/Learning%20for%20WFP%20roles.xlsx");
 
 // Check connection
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-$sql = "SELECT id, username, password FROM login";
+$sql = "SELECT id, Role Name, Learning resources";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 
 // output data of each row
 while($row = $result->fetch_assoc()) {
-echo "<tr><td>" . $row["id"]. "</td><td>" . $row["username"] . "</td><td>"
-. $row["password"]. "</td></tr>";
+echo "<tr><td>" . $row["id"]. "</td><td>" . $row["Role Name"] . "</td><td>"
+. $row["Learning resources"]. "</td></tr>";
 }
 echo "</table>";
 } else { echo "0 results"; }
